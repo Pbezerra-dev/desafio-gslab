@@ -1,9 +1,10 @@
-># Desafio - GsLab
+![CI](https://github.com/Pbezerra-dev/desafio-gslab/workflows/CI/badge.svg)
 
+># Desafio - GsLab
 
 ## Como rodar o projeto localmente?
 ```bash
-git clone
+git clone https://github.com/Pbezerra-dev/desafio-gslab.git
 cd desafio-gslab
 cp backend/contrib/env-dev-sample backend/.env
 cp backend/contrib/env-db-sample backend/.db.env

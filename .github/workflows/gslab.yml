@@ -49,4 +49,4 @@ jobs:
         
     - name: Tests with Pytest
       run: |
-        poetry run pytest --cov=core
+        poetry run pytest --cov=products
