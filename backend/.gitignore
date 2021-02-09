@@ -1,0 +1,14 @@
+# envs
+.idea
+venv
+.env
+.venv
+.vscode
+.db.env
+
+# cache
+.pytest_cache
+__pycache__/
+
+# coverage
+.coverage

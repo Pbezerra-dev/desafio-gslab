@@ -1,0 +1,45 @@
+version: '2.2'
+
+services:
+  db:
+    container_name: gslab_db
+    image: postgres:11
+    env_file:
+      - ./backend/.db.env
+    volumes:
+      - backend:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d gslab']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build: ./backend
+    container_name: gslab_api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: gslab-front
+    command: npm run serve
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - 8080:8080
+    depends_on:
+      - api
+    logging: 
+      driver: none
+
+volumes:
+  db_volume:
+  backend:
+  frontend:

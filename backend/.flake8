@@ -1,0 +1,28 @@
+[flake8]
+max-line-length = 119
+format = pylint
+exclude =
+    *env/*
+    *migrations*
+    *.pre-commit-config.*
+    *.flake8*
+    *fixtures*
+    *.html
+    *.yaml
+    *.json
+    *.txt
+    *.md
+    *.coveragerc
+    *LICENSE*
+    *contrib/*
+    *docker-compose*
+    .github/*
+    .gitignore
+    .git,
+    wsgi.py
+    README.md
+    requirements*
+    poetry.lock
+    pyproject.toml
+    pytest.ini
+    Dockerfile

@@ -1,0 +1,52 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports: ['5432:5432']
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - name: Copying configurations
+      run: |
+        cp contrib/env-ci-sample .env
+
+    - name: Install Poetry
+      uses: dschep/install-poetry-action@v1.3
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
+
+    - name: Set Poetry Config
+      run: |
+        poetry config virtualenvs.in-project false
+        poetry config virtualenvs.path ~/.virtualenvs
+
+    - name: Install Dependencies
+      run: poetry install
+      if: steps.cache.outputs.cache-hit != 'true'
+
+    - name: Lynt with Flake8
+      run: |
+        poetry run flake8 --config=.flake8
+        
+    - name: Tests with Pytest
+      run: |
+        poetry run pytest --cov=core
